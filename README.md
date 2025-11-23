@@ -1,102 +1,100 @@
 # SolRush DEX
 
-## Overview
-
-SolRush is a decentralized exchange on Solana with three liquidity pools (SOL/USDC, SOL/wETH, SOL/USDT), AMM-based trading, and a Rush token reward system with a 1,000,000 token supply cap.
+Decentralized exchange on Solana featuring AMM-based trading, liquidity mining, perpetual trading, and advanced order types.
 
 ## Architecture
 
-The project consists of 6 interconnected Anchor programs:
+Six interconnected Anchor programs:
 
-1. **Liquidity Pool** - AMM-based liquidity pools with LP token minting
-2. **Swap** - Token swap execution with slippage protection
-3. **Rush Token** - Reward token with supply cap enforcement
-4. **Rewards** - Liquidity mining and reward distribution
-5. **Perpetual** - Leveraged trading with liquidation system
-6. **Admin** - Platform administration and emergency controls
+1. **Liquidity Pool** - AMM with constant product formula (x * y = k)
+2. **Swap** - Market, limit, and DCA orders across SOL/USDC, SOL/wETH, SOL/USDT
+3. **Rush Token** - Reward token with 1M supply cap
+4. **Rewards** - Time-based liquidity mining
+5. **Perpetual** - Leveraged trading (2x-10x) with liquidation
+6. **Admin** - Emergency controls and fee management
 
-## Prerequisites
+## Quick Start
 
+### Prerequisites
 - Rust 1.70+
 - Solana CLI 1.17+
 - Anchor 0.29.0+
 - Node.js 16+
-- Yarn or npm
 
-## Installation
-
-### 1. Install Dependencies
+### Installation
 
 ```bash
-# Install Rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-# Install Solana CLI
-sh -c "$(curl -sSfL https://release.solana.com/v1.17.0/install)"
-
-# Install Anchor
-cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
-avm install 0.29.0
-avm use 0.29.0
-
-# Install Node dependencies
+# Install dependencies
 yarn install
-```
 
-### 2. Configure Solana
-
-```bash
-# Set to devnet
-solana config set --url devnet
-
-# Create wallet (if needed)
-solana-keygen new --outfile ~/.config/solana/id.json
-
-# Airdrop SOL for testing
-solana airdrop 2
-```
-
-### 3. Build Programs
-
-```bash
-# Build all programs
+# Build programs
 anchor build
 
-# Get program IDs
-anchor keys list
-```
+# Run tests
+anchor test
 
-### 4. Update Program IDs
-
-Update the program IDs in `Anchor.toml` and `lib.rs` files with the output from `anchor keys list`.
-
-## Deployment
-
-### Deploy to Devnet
-
-```bash
-# Deploy all programs
+# Deploy to devnet
 anchor deploy --provider.cluster devnet
-
-# Verify deployment
-solana program show <PROGRAM_ID>
-```
-
-### Initialize Programs
-
-```bash
-# Run initialization scripts
-yarn run initialize-devnet
 ```
 
 ## Testing
 
 ```bash
-# Run all tests
+# All tests
 anchor test
 
-# Run specific test file
-anchor test --skip-deploy tests/liquidity-pool.ts
+# Unit tests only (29 tests, mathematical formulas)
+npm run test:unit
+
+# Integration tests (requires validator)
+npm run test:integration
+```
+
+## Program Addresses
+
+Update program IDs in `Anchor.toml` after deployment:
+```bash
+anchor keys list
+```
+
+## Documentation
+
+- `API_DOCS.md` - Complete API reference
+- `QUICK_REFERENCE.md` - Quick command reference
+- `programs/solrush-swap/README.md` - Advanced trading features
+- `tests/README.md` - Testing guide
+
+## Features
+
+### AMM Trading
+- Constant product formula
+- LP token minting/burning
+- 0.3% trading fee
+- Slippage protection
+
+### Advanced Orders
+- Market orders (instant execution)
+- Limit orders (price target)
+- DCA orders (recurring buys/sells)
+
+### Liquidity Mining
+- Time-weighted rewards
+- RUSH token distribution
+- Per-pool tracking
+
+### Perpetual Trading
+- Long/short positions
+- 2x-10x leverage
+- Automatic liquidation
+- Margin management
+
+## Security
+
+All arithmetic operations use checked math to prevent overflow/underflow. Emergency pause mechanism included in admin contract.
+
+## License
+
+MIT
 
 # Run with logs
 anchor test -- --nocapture

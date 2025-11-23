@@ -1,7 +1,25 @@
 pub mod execute_swap;
 pub mod calculate_swap_output;
 pub mod get_swap_fee_info;
+pub mod execute_market_order;
+pub mod place_limit_order;
+pub mod cancel_limit_order;
+pub mod execute_limit_order;
+pub mod create_dca_order;
+pub mod execute_dca_order;
+pub mod cancel_dca_order;
+pub mod initialize_pool;
+pub mod initialize_order_book;
 
 pub use execute_swap::*;
 pub use calculate_swap_output::*;
 pub use get_swap_fee_info::*;
+pub use execute_market_order::*;
+pub use place_limit_order::*;
+pub use cancel_limit_order::*;
+pub use execute_limit_order::*;
+pub use create_dca_order::*;
+pub use execute_dca_order::*;
+pub use cancel_dca_order::*;
+pub use initialize_pool::*;
+pub use initialize_order_book::*;
